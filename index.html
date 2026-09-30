@@ -1,0 +1,567 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Student Details</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            min-height: 100vh;
+
+            padding: 40px 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #667eea,
+                    #764ba2
+                );
+        }
+
+
+        /* =========================
+           MAIN CONTAINER
+        ========================= */
+
+        .container {
+
+            max-width: 900px;
+
+            margin: auto;
+
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 25px;
+
+            box-shadow:
+                0 20px 50px
+                rgba(0, 0, 0, 0.25);
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+
+            text-align: center;
+
+            margin-bottom: 30px;
+        }
+
+
+        .header h1 {
+
+            color: #333;
+
+            font-size: 32px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .header p {
+
+            color: #777;
+
+            font-size: 15px;
+        }
+
+
+        /* =========================
+           STUDENT COUNT
+        ========================= */
+
+        .student-count {
+
+            display: inline-block;
+
+            margin-top: 15px;
+
+            padding: 8px 18px;
+
+            border-radius: 20px;
+
+            background: #eef0ff;
+
+            color: #667eea;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-container {
+
+            overflow-x: auto;
+
+            margin-top: 25px;
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            overflow: hidden;
+
+            border-radius: 12px;
+        }
+
+
+        th {
+
+            padding: 16px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #667eea,
+                    #764ba2
+                );
+
+            color: white;
+
+            font-size: 15px;
+        }
+
+
+        td {
+
+            padding: 14px;
+
+            text-align: center;
+
+            border-bottom: 1px solid #eee;
+
+            color: #444;
+        }
+
+
+        tr:nth-child(even) {
+
+            background: #f8f9ff;
+        }
+
+
+        tr:hover {
+
+            background: #eef0ff;
+
+            transition: 0.2s;
+        }
+
+
+        /* =========================
+           ADD BUTTON
+        ========================= */
+
+        .button-area {
+
+            text-align: center;
+
+            margin-top: 25px;
+        }
+
+
+        .add-button {
+
+            padding: 14px 30px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #667eea,
+                    #764ba2
+                );
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+
+        .add-button:hover {
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 8px 20px
+                rgba(102, 126, 234, 0.4);
+        }
+
+
+        .add-button:active {
+
+            transform: scale(0.96);
+        }
+
+
+        /* =========================
+           EMPTY MESSAGE
+        ========================= */
+
+        .empty-message {
+
+            text-align: center;
+
+            padding: 20px;
+
+            color: #888;
+        }
+
+
+        /* =========================
+           MEDIA QUERY
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            body {
+
+                padding: 20px 10px;
+            }
+
+
+            .container {
+
+                padding: 20px;
+
+                border-radius: 18px;
+            }
+
+
+            .header h1 {
+
+                font-size: 25px;
+            }
+
+
+            th,
+            td {
+
+                padding: 10px 8px;
+
+                font-size: 13px;
+            }
+
+
+            .add-button {
+
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+
+        <!-- HEADER -->
+
+        <div class="header">
+
+            <h1>
+                👩‍🎓 Student Details
+            </h1>
+
+            <p>
+                JSON Array & Object Example
+            </p>
+
+            <div
+                class="student-count"
+                id="studentCount">
+
+                Students: 0
+
+            </div>
+
+        </div>
+
+
+
+        <!-- TABLE -->
+
+        <div class="table-container">
+
+            <table id="studentTable">
+
+                <tr>
+
+                    <th>
+                        #
+                    </th>
+
+                    <th>
+                        Name
+                    </th>
+
+                    <th>
+                        Age
+                    </th>
+
+                    <th>
+                        Course
+                    </th>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+
+
+        <!-- BUTTON -->
+
+        <div class="button-area">
+
+            <button
+                class="add-button"
+                onclick="addStudent()">
+
+                ➕ Add Student
+
+            </button>
+
+        </div>
+
+
+    </div>
+
+
+
+    <script>
+
+
+        // =========================
+        // JSON DATA
+        // =========================
+
+        let students = [
+
+            {
+                "name": "Bharathi",
+                "age": 32,
+                "course": "Full Stack"
+            },
+
+            {
+                "name": "Prabha",
+                "age": 20,
+                "course": "Python"
+            },
+
+            {
+                "name": "Tharagai",
+                "age": 18,
+                "course": "MS Word"
+            }
+
+        ];
+
+
+
+        // =========================
+        // DISPLAY STUDENTS
+        // =========================
+
+        function showStudent() {
+
+
+            let table =
+                document.getElementById(
+                    "studentTable"
+                );
+
+
+            table.innerHTML = `
+
+                <tr>
+
+                    <th>#</th>
+
+                    <th>Name</th>
+
+                    <th>Age</th>
+
+                    <th>Course</th>
+
+                </tr>
+
+            `;
+
+
+
+            students.forEach(
+                (stu, index) => {
+
+
+                    let row = `
+
+                        <tr>
+
+                            <td>
+                                ${index + 1}
+                            </td>
+
+                            <td>
+                                ${stu.name}
+                            </td>
+
+                            <td>
+                                ${stu.age}
+                            </td>
+
+                            <td>
+                                ${stu.course}
+                            </td>
+
+                        </tr>
+
+                    `;
+
+
+                    table.innerHTML += row;
+
+                }
+            );
+
+
+
+            // Update student count
+
+            document.getElementById(
+                "studentCount"
+            ).innerHTML =
+
+                "Students: " +
+                students.length;
+
+        }
+
+
+
+        // =========================
+        // ADD STUDENT
+        // =========================
+
+        function addStudent() {
+
+
+            let name =
+                prompt(
+                    "Enter Student Name:"
+                );
+
+
+            let age =
+                prompt(
+                    "Enter Student Age:"
+                );
+
+
+            let course =
+                prompt(
+                    "Enter Student Course:"
+                );
+
+
+
+            if (
+                name &&
+                age &&
+                course
+            ) {
+
+
+                students.push({
+
+                    "name": name,
+
+                    "age": parseInt(age),
+
+                    "course": course
+
+                });
+
+
+                showStudent();
+
+
+                alert(
+                    "✅ Student added successfully!"
+                );
+
+            }
+
+            else {
+
+                alert(
+                    "⚠️ Please enter all details."
+                );
+
+            }
+
+        }
+
+
+
+        // =========================
+        // INITIAL LOAD
+        // =========================
+
+        showStudent();
+
+    </script>
+
+
+</body>
+
+</html>
+
